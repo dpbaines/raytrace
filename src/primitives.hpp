@@ -1,4 +1,5 @@
 #include "renderer.hpp"
+#include "math.h"
 
 #ifndef PRIMITIVES_HPP
 #define PRIMITIVES_HPP
@@ -8,11 +9,14 @@ struct Coords {
     float y;
     float z;
 
-    Coords() {valid = true;};
-    Coords(float x1, float y1, float z1) : x(x1), y(y1), z(z1) {valid = true;}; 
+    Coords() {valid = true;}
+    Coords(float x1, float y1, float z1) : x(x1), y(y1), z(z1) {valid = true;}
 
     // Treat as dot product
     float operator*(const Coords& rhs);
+
+    // Treat as cross product
+    Coords operator%(const Coords& rhs);
     
     float mag();
 
@@ -27,12 +31,14 @@ struct Coords {
 
 class Ray {
     public:
-    Ray() {};
-    Ray(Coords org, Coords direction) : origin(org), dir(direction) {};
+    Ray() {}
+    Ray(Coords org, Coords direction) : origin(org), dir(direction) {}
 
     Coords direction();
     Coords u();
     Coords point();
+
+    Coords X(float d);
 
     float mag();
 
@@ -62,7 +68,7 @@ class Sphere : Shape {
     public:
 
     Sphere();
-    Sphere(float r, Coords orig, pixel col) : radius(r), origin(orig), colour(col) {};
+    Sphere(float r, Coords orig, pixel col) : radius(r), origin(orig), colour(col) {}
 
     Coords intersection_point(Ray incoming) override;
     Ray get_reflected_ray(Ray incoming) override;

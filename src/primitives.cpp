@@ -1,5 +1,4 @@
 #include "primitives.hpp"
-#include "math.h"
 
 Ray Ray::operator+(const Ray& rhs) {
     Ray newray;
@@ -13,6 +12,16 @@ Ray Ray::operator+(const Ray& rhs) {
     newray.dir.z = origin.z + rhs.origin.z;
 
     return newray;
+}
+
+Coords Coords::operator%(const Coords& rhs) {
+    Coords cross;
+
+    cross.x = (y * rhs.z) - (z * rhs.y);
+    cross.y = (z * rhs.x) - (x * rhs.z);
+    cross.z = (x * rhs.y) - (y * rhs.x);
+
+    return cross;
 }
 
 Coords Coords::operator+(const Coords& rhs) {
@@ -64,6 +73,10 @@ Coords Ray::point() {
 
 float Ray::mag() {
     return std::sqrt( std::pow(dir.x, 2) + std::pow(dir.y, 2) + std::pow(dir.z, 2) );
+}
+
+Coords Ray::X(float d) {
+    return origin + (dir * d);
 }
 
 float Coords::mag() {
