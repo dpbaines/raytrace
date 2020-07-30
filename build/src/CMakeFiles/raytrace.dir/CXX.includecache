@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dbaines/Documents/projects/raytrace/src/RayConfig.h
+
+/home/dbaines/Documents/projects/raytrace/src/main.cpp
+iostream
+-
+SFML/Window.hpp
+-
+SFML/Graphics.hpp
+-
+RayConfig.h
+/home/dbaines/Documents/projects/raytrace/src/RayConfig.h
+renderer.hpp
+/home/dbaines/Documents/projects/raytrace/src/renderer.hpp
+primitives.hpp
+/home/dbaines/Documents/projects/raytrace/src/primitives.hpp
+
+/home/dbaines/Documents/projects/raytrace/src/primitives.cpp
+primitives.hpp
+/home/dbaines/Documents/projects/raytrace/src/primitives.hpp
+math.h
+/home/dbaines/Documents/projects/raytrace/src/math.h
+
+/home/dbaines/Documents/projects/raytrace/src/primitives.hpp
+renderer.hpp
+/home/dbaines/Documents/projects/raytrace/src/renderer.hpp
+
+/home/dbaines/Documents/projects/raytrace/src/renderer.hpp
+SFML/Window.hpp
+-
+SFML/Graphics.hpp
+-
+
