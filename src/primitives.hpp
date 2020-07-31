@@ -18,8 +18,10 @@ struct Coords {
     // Treat as cross product
     Coords operator%(const Coords& rhs);
     
+    // Returns the magnitude of the vector
     float mag();
 
+    // Normalize all components, ie divide each by the magnitude
     void normalize();
 
     Coords operator*(float rhs);
@@ -40,8 +42,10 @@ class Ray {
 
     Coords X(float d);
 
+    // Return magnitude of the direction component of the ray
     float mag();
 
+    // Add two rays, ie add the direction vectors, using the lhs origin
     Ray operator+(const Ray& rhs);
 
     private:
@@ -53,8 +57,13 @@ class Ray {
 class Shape {
     public:
 
+    // Get the intersection point of a ray and whatever shape
     virtual Coords intersection_point(Ray incoming) = 0;
+
+    // Return the reflected ray to an incoming ray hitting this shape
     virtual Ray get_reflected_ray(Ray incoming) = 0;
+
+    // Return normal to a point on the surface
     virtual Coords normal(Coords point) = 0;
 
     protected:

@@ -126,6 +126,9 @@ Coords Sphere::intersection_point(Ray incoming) {
 
 Ray Sphere::get_reflected_ray(Ray incoming) {
     Coords intersect = intersection_point(incoming);
+
+    if (!intersect.valid) return Ray();
+
     Coords norm = normal(intersect);
 
     Coords r = incoming.u() - (norm * (2 * (incoming.u() * norm)));
