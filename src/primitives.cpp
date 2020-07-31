@@ -166,3 +166,19 @@ void Sphere::set_origin(Coords coord) {
 Coords Sphere::get_origin() {
     return origin;
 }
+
+Coords Shape::get_center() {
+    return Coords(0., 0., 0.);
+}
+
+Coords Shape::get_center() const {
+    return Coords(0., 0., 0.);
+}
+
+Coords Sphere::get_center() {
+    return origin;
+}
+
+Coords Sphere::get_center() const {
+    return origin;
+}

@@ -66,6 +66,9 @@ class Shape {
     // Return normal to a point on the surface
     virtual Coords normal(Coords point) = 0;
 
+    virtual Coords get_center();
+    virtual Coords get_center() const;
+
     protected:
 
     float emissivity;
@@ -92,6 +95,10 @@ class Sphere : Shape {
     Coords get_origin();
 
     Coords normal(Coords point) override;
+
+    // Same as get_origin in this case
+    Coords get_center() override;
+    Coords get_center() const override;
 
     private:
 
