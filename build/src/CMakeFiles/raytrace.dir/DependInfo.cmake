@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/dbaines/Documents/projects/raytrace/src/camera.cpp" "/home/dbaines/Documents/projects/raytrace/build/src/CMakeFiles/raytrace.dir/camera.cpp.o"
   "/home/dbaines/Documents/projects/raytrace/src/main.cpp" "/home/dbaines/Documents/projects/raytrace/build/src/CMakeFiles/raytrace.dir/main.cpp.o"
   "/home/dbaines/Documents/projects/raytrace/src/primitives.cpp" "/home/dbaines/Documents/projects/raytrace/build/src/CMakeFiles/raytrace.dir/primitives.cpp.o"
   "/home/dbaines/Documents/projects/raytrace/src/renderer.cpp" "/home/dbaines/Documents/projects/raytrace/build/src/CMakeFiles/raytrace.dir/renderer.cpp.o"

@@ -76,9 +76,22 @@ include src/CMakeFiles/raytrace.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/raytrace.dir/flags.make
 
+src/CMakeFiles/raytrace.dir/camera.cpp.o: src/CMakeFiles/raytrace.dir/flags.make
+src/CMakeFiles/raytrace.dir/camera.cpp.o: ../src/camera.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/raytrace.dir/camera.cpp.o"
+	cd /home/dbaines/Documents/projects/raytrace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytrace.dir/camera.cpp.o -c /home/dbaines/Documents/projects/raytrace/src/camera.cpp
+
+src/CMakeFiles/raytrace.dir/camera.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/raytrace.dir/camera.cpp.i"
+	cd /home/dbaines/Documents/projects/raytrace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dbaines/Documents/projects/raytrace/src/camera.cpp > CMakeFiles/raytrace.dir/camera.cpp.i
+
+src/CMakeFiles/raytrace.dir/camera.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytrace.dir/camera.cpp.s"
+	cd /home/dbaines/Documents/projects/raytrace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dbaines/Documents/projects/raytrace/src/camera.cpp -o CMakeFiles/raytrace.dir/camera.cpp.s
+
 src/CMakeFiles/raytrace.dir/main.cpp.o: src/CMakeFiles/raytrace.dir/flags.make
 src/CMakeFiles/raytrace.dir/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/raytrace.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/raytrace.dir/main.cpp.o"
 	cd /home/dbaines/Documents/projects/raytrace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytrace.dir/main.cpp.o -c /home/dbaines/Documents/projects/raytrace/src/main.cpp
 
 src/CMakeFiles/raytrace.dir/main.cpp.i: cmake_force
@@ -91,7 +104,7 @@ src/CMakeFiles/raytrace.dir/main.cpp.s: cmake_force
 
 src/CMakeFiles/raytrace.dir/primitives.cpp.o: src/CMakeFiles/raytrace.dir/flags.make
 src/CMakeFiles/raytrace.dir/primitives.cpp.o: ../src/primitives.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/raytrace.dir/primitives.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/raytrace.dir/primitives.cpp.o"
 	cd /home/dbaines/Documents/projects/raytrace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytrace.dir/primitives.cpp.o -c /home/dbaines/Documents/projects/raytrace/src/primitives.cpp
 
 src/CMakeFiles/raytrace.dir/primitives.cpp.i: cmake_force
@@ -104,7 +117,7 @@ src/CMakeFiles/raytrace.dir/primitives.cpp.s: cmake_force
 
 src/CMakeFiles/raytrace.dir/renderer.cpp.o: src/CMakeFiles/raytrace.dir/flags.make
 src/CMakeFiles/raytrace.dir/renderer.cpp.o: ../src/renderer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/raytrace.dir/renderer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/raytrace.dir/renderer.cpp.o"
 	cd /home/dbaines/Documents/projects/raytrace/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytrace.dir/renderer.cpp.o -c /home/dbaines/Documents/projects/raytrace/src/renderer.cpp
 
 src/CMakeFiles/raytrace.dir/renderer.cpp.i: cmake_force
@@ -117,6 +130,7 @@ src/CMakeFiles/raytrace.dir/renderer.cpp.s: cmake_force
 
 # Object files for target raytrace
 raytrace_OBJECTS = \
+"CMakeFiles/raytrace.dir/camera.cpp.o" \
 "CMakeFiles/raytrace.dir/main.cpp.o" \
 "CMakeFiles/raytrace.dir/primitives.cpp.o" \
 "CMakeFiles/raytrace.dir/renderer.cpp.o"
@@ -124,12 +138,13 @@ raytrace_OBJECTS = \
 # External object files for target raytrace
 raytrace_EXTERNAL_OBJECTS =
 
+src/raytrace: src/CMakeFiles/raytrace.dir/camera.cpp.o
 src/raytrace: src/CMakeFiles/raytrace.dir/main.cpp.o
 src/raytrace: src/CMakeFiles/raytrace.dir/primitives.cpp.o
 src/raytrace: src/CMakeFiles/raytrace.dir/renderer.cpp.o
 src/raytrace: src/CMakeFiles/raytrace.dir/build.make
 src/raytrace: src/CMakeFiles/raytrace.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable raytrace"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dbaines/Documents/projects/raytrace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable raytrace"
 	cd /home/dbaines/Documents/projects/raytrace/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/raytrace.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

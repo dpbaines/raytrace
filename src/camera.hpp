@@ -9,6 +9,8 @@
 
 #define FOV 90
 
+class ShapeContainer;
+
 class Screen {
     public:
 
@@ -46,14 +48,36 @@ struct Camera {
     Coords origin;
 };
 
+// Gonna be taking advantage of polymorphism here to store different kinds of shapes in the same container
+class ShapeContainer {
+    public:
+
+    void register_shape(Shape* shape, const Camera& camera);
+    int get_unique_id();
+    std::vector<Shape*> get_shape_list();
+
+    Shape* operator[](int id);
+    int size();
+
+    private:
+
+    void sort_container(const Camera& camera);
+
+    // Sort this by distance from camera
+    std::vector<Shape*> shape_cont;
+};
+
+bool compare_shape(const Shape* s1, const Shape* s2, const Camera& camera);
+
 class Scene {
     public:
 
-    void render();
-    pixel cast_ray(const Scene& scene, Coords direction);
+    void render(Renderer& renderer);
+    pixel cast_ray(Ray direction, int this_id = -1);
+    pixel get_brightness(Ray dir, float emmissivity, pixel colour);
 
-    void setup_camera();
-    void add_shape(Shape& shape);
+    Scene(Coords cent, Coords normal, Coords vertical, float w, float h);
+    void add_shape(Shape* shape);
 
     private:
 
@@ -62,21 +86,5 @@ class Scene {
     ShapeContainer shape_list;
 };
 
-// Gonna be taking advantage of polymorphism here to store different kinds of shapes in the same container
-class ShapeContainer {
-    public:
-
-    void register_shape(Shape* shape, const Camera& camera);
-
-    std::vector<Shape*> get_shape_list();
-
-    private:
-
-    bool compare_shape(const Shape* s1, const Shape* s2, const Camera& camera);
-    void sort_container(const Camera& camera);
-
-    // Sort this by distance from camera
-    std::vector<Shape*> shape_cont;
-};
 
 #endif

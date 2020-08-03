@@ -54,6 +54,11 @@ Coords Coords::operator*(float rhs) {
     return dot;
 }
 
+Coords& Coords::invalidate() {
+    valid = false;
+    return *this;
+}
+
 float Coords::operator*(const Coords& rhs) {
     return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
 }
@@ -91,7 +96,7 @@ void Coords::normalize() {
     z /= magnitude;
 }
 
-Coords Sphere::intersection_point(Ray incoming) {
+std::pair<Coords, int> Sphere::intersection_point(Ray incoming) {
     // https://en.wikipedia.org/wiki/Line–sphere_intersection
     // Det < 0 means no intersection
     // Det = 0 means one intersection
@@ -101,14 +106,12 @@ Coords Sphere::intersection_point(Ray incoming) {
 
     if (determinant < 0) {
         // No intersection
-        Coords invalid;
-        invalid.valid = false;
-        return invalid;
+        return std::make_pair(Coords().invalidate(), 0);
     } else if (determinant == 0) {
         // A single intersection, ie a tangent
         float d = - (incoming.u() * (incoming.point() - origin)) + std::sqrt(determinant);
 
-        return incoming.point() + (incoming.u() * d);
+        return std::make_pair(incoming.point() + (incoming.u() * d), 1);
 
     } else {
         // Ray passes through sphere at points
@@ -119,13 +122,15 @@ Coords Sphere::intersection_point(Ray incoming) {
         Coords point2 = incoming.point() + (incoming.u() * dneg);
 
         // Return coordinate closer to ray casting point
-        return (point1 - incoming.point()).mag() < (point2 - incoming.point()).mag() ? point1 : point2;
+        return std::make_pair((point1 - incoming.point()).mag() < (point2 - incoming.point()).mag() ? point1 : point2, 2);
     }
 
 }
 
 Ray Sphere::get_reflected_ray(Ray incoming) {
-    Coords intersect = intersection_point(incoming);
+    Coords intersect;
+    int num_intersections;
+    std::tie(intersect, num_intersections) = intersection_point(incoming);
 
     if (!intersect.valid) return Ray();
 
@@ -163,12 +168,38 @@ void Sphere::set_origin(Coords coord) {
     origin = coord;
 }
 
+bool Sphere::intersects(Ray incoming) {
+    float determinant = std::pow( (incoming.u() * (incoming.point() - origin)) , 2) 
+                        - ( (incoming.point() - origin) * (incoming.point() - origin) - radius);
+
+
+    return determinant >= 0;
+}
+
 Coords Sphere::get_origin() {
     return origin;
 }
 
 Coords Shape::get_center() {
     return Coords(0., 0., 0.);
+}
+
+std::pair<Coords, int> Shape::intersection_point(Ray incoming) {
+    return std::make_pair(Coords(0., 0., 0.).invalidate(), -1);
+}
+
+Ray Shape::get_reflected_ray(Ray incoming) {
+    // Just mess shit up
+    return Ray();
+}
+
+bool Shape::intersects(Ray incoming) {
+    printf("Wrong shape\n");
+    return false;
+}
+
+Coords Shape::normal(Coords point) {
+    return Coords(0., 0., 0.).invalidate();
 }
 
 Coords Shape::get_center() const {

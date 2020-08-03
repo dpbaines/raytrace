@@ -144,6 +144,33 @@ raytrace/fast:
 	cd /home/dbaines/Documents/projects/raytrace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/raytrace.dir/build.make src/CMakeFiles/raytrace.dir/build
 .PHONY : raytrace/fast
 
+camera.o: camera.cpp.o
+
+.PHONY : camera.o
+
+# target to build an object file
+camera.cpp.o:
+	cd /home/dbaines/Documents/projects/raytrace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/raytrace.dir/build.make src/CMakeFiles/raytrace.dir/camera.cpp.o
+.PHONY : camera.cpp.o
+
+camera.i: camera.cpp.i
+
+.PHONY : camera.i
+
+# target to preprocess a source file
+camera.cpp.i:
+	cd /home/dbaines/Documents/projects/raytrace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/raytrace.dir/build.make src/CMakeFiles/raytrace.dir/camera.cpp.i
+.PHONY : camera.cpp.i
+
+camera.s: camera.cpp.s
+
+.PHONY : camera.s
+
+# target to generate assembly for a file
+camera.cpp.s:
+	cd /home/dbaines/Documents/projects/raytrace/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/raytrace.dir/build.make src/CMakeFiles/raytrace.dir/camera.cpp.s
+.PHONY : camera.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -234,6 +261,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... raytrace"
+	@echo "... camera.o"
+	@echo "... camera.i"
+	@echo "... camera.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

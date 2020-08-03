@@ -23,6 +23,7 @@ struct Coords {
 
     // Normalize all components, ie divide each by the magnitude
     void normalize();
+    Coords& invalidate();
 
     Coords operator*(float rhs);
     Coords operator+(const Coords& rhs);
@@ -58,31 +59,35 @@ class Shape {
     public:
 
     // Get the intersection point of a ray and whatever shape
-    virtual Coords intersection_point(Ray incoming) = 0;
+    virtual bool intersects(Ray incoming);
+
+    // Get the intersection point of a ray and whatever shape
+    virtual std::pair<Coords, int> intersection_point(Ray incoming);
 
     // Return the reflected ray to an incoming ray hitting this shape
-    virtual Ray get_reflected_ray(Ray incoming) = 0;
+    virtual Ray get_reflected_ray(Ray incoming);
 
     // Return normal to a point on the surface
-    virtual Coords normal(Coords point) = 0;
+    virtual Coords normal(Coords point);
 
     virtual Coords get_center();
     virtual Coords get_center() const;
 
-    protected:
-
+    int id_;
     float emissivity;
+    pixel colour;
     float reflectivity;
     float matte;
 };
 
-class Sphere : Shape {
+class Sphere : public Shape {
     public:
 
     Sphere();
-    Sphere(float r, Coords orig, pixel col) : radius(r), origin(orig), colour(col) {}
+    Sphere(float r, Coords orig) : radius(r), origin(orig) {}
 
-    Coords intersection_point(Ray incoming) override;
+    bool intersects(Ray incoming) override;
+    std::pair<Coords, int> intersection_point(Ray incoming) override;
     Ray get_reflected_ray(Ray incoming) override;
 
     void set_radius(float r);
@@ -104,7 +109,6 @@ class Sphere : Shape {
 
     float radius;
     Coords origin;
-    pixel colour;
 };
 
 #endif

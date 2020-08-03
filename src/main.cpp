@@ -4,6 +4,7 @@
 #include "RayConfig.h"
 #include "renderer.hpp"
 #include "primitives.hpp"
+#include "camera.hpp"
 
 int main() {
     std::cout << "Davids Raytracing VERSION: " << Raytrace_VERSION_MAJOR << "." << Raytrace_VERSION_MINOR << std::endl;
@@ -16,6 +17,18 @@ int main() {
     texture.create(WIDTH, HEIGHT);
 
     sf::Sprite sprite(texture);
+
+    Scene scene(Coords(0, 0, 0), Coords(0, 1, 0), Coords(0, 0, 1), 1.6, 1.2);
+
+    Sphere sp1(1, Coords(0, 5, 0));
+
+    Sphere light(1, Coords(0, 3, 7));
+    light.emissivity = 1;
+
+    scene.add_shape(&sp1);
+    scene.add_shape(&light);
+
+    scene.render(renderer);
 
     // run the program as long as the window is open
     while (window.isOpen()) {
