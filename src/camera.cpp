@@ -64,6 +64,11 @@ void Scene::add_shape(Shape* shape) {
     shape_list.register_shape(shape, camera);
 }
 
+void Scene::add_light(Shape* shape) {
+    shape->id_ = light_list.get_unique_id();
+    light_list.register_shape(shape, camera);
+}
+
 bool compare_shape(const Shape* s1, const Shape* s2, const Camera& camera) {
     float distance1 = (s1->get_center() - camera.origin).mag();
     float distance2 = (s2->get_center() - camera.origin).mag();
@@ -85,13 +90,17 @@ pixel Scene::cast_ray(Ray direction, int this_id) {
         if (shape_list[i]->intersects(direction)) {
             // printf("1");
 
-            if (shape_list[i]->emissivity > 0) {
-                return get_brightness(direction, shape_list[i]->emissivity, pixel(255, 255, 0, 255));
-            }
+            // if (shape_list[i]->emissivity > 0) {
+            Coords inter_point;
+            int temp;
+            std::tie(inter_point, temp) = shape_list[i]->intersection_point(direction);
 
-            Ray refl = shape_list[i]->get_reflected_ray(direction);
+            return get_brightness(direction, light_list[0], pixel(255, 255, 0, 255), inter_point);
+            // }
 
-            return cast_ray(refl, shape_list[i]->id_);
+            // Ray refl = shape_list[i]->get_reflected_ray(direction);
+
+            // return cast_ray(refl, shape_list[i]->id_);
         }
     }
 
@@ -106,7 +115,7 @@ void Scene::render(Renderer& renderer) {
     printf("Camera coord <%f %f %f>\n", camera.origin.x, camera.origin.y, camera.origin.z);
 
     for (int y = 0; y < HEIGHT; y++) {
-        printf("\n");
+        // printf("\n");
 
         for (int x = 0; x < WIDTH; x++) {
             Coords screenvec = camera.screen.get_coord(x, y);
@@ -117,7 +126,7 @@ void Scene::render(Renderer& renderer) {
             pixel castray = cast_ray(raycast);
             renderer.set_pixel(castray, x, y);
 
-            if (x % 100 == 0) printf("<%f %f %f> ", raydir.x, raydir.y, raydir.z);
+            // if (x % 100 == 0) printf("<%f %f %f> ", raydir.x, raydir.y, raydir.z);
         }
     }
 }
@@ -139,14 +148,21 @@ Scene::Scene(Coords cent, Coords normal, Coords vertical, float w, float h) : ca
     
 }
 
-pixel Scene::get_brightness(Ray dir, float emmissivity, pixel colour) {
+pixel Scene::get_brightness(Ray dir, Shape* light, pixel colour, Coords intersect_point) {
     float distance = dir.mag();
 
     pixel brightness;
 
-    brightness.r = std::max(colour.r / std::pow(distance + 1, 2.), 255.);
-    brightness.g = std::max(colour.g / std::pow(distance + 1, 2.), 255.);
-    brightness.b = std::max(colour.b / std::pow(distance + 1, 2.), 255.);
+    // brightness.r = (sf::Uint8) std::min(colour.r / (std::pow(distance + 1, 2.) * 4 * M_PI), (double) colour.r);
+    // brightness.g = (sf::Uint8) std::min(colour.g / (std::pow(distance + 1, 2.) * 4 * M_PI), (double) colour.g);
+    // brightness.b = (sf::Uint8) std::min(colour.b / (std::pow(distance + 1, 2.) * 4 * M_PI), (double) colour.b);
+
+    Coords normal = light->normal(intersect_point);
+    float cosangle = (dir.direction() * normal) / (normal.mag() * dir.direction().mag());
+
+    brightness.r = (sf::Uint8) std::max(colour.r * cosangle, 0.f);
+    brightness.g = (sf::Uint8) std::max(colour.g * cosangle, 0.f);
+    brightness.b = (sf::Uint8) std::max(colour.b * cosangle, 0.f);
     brightness.a = 255;
 
     return brightness;

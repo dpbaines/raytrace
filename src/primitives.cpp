@@ -213,3 +213,84 @@ Coords Sphere::get_center() {
 Coords Sphere::get_center() const {
     return origin;
 }
+
+Plane::Plane() {
+    type = ShapeType::PLANE;
+}
+
+Plane::Plane(Coords norm, Coords orig) : norm(norm), origin(orig) {
+    type = ShapeType::PLANE;
+}
+
+bool Plane::intersects(Ray incoming) {
+    // From the wikipedia page
+    // d is the line size where intersection occurs
+
+    // Avoid divide by zero
+    if ((incoming.direction() * norm) == 0) return false;
+
+    float d = ((origin - incoming.point()) * norm) / (incoming.direction() * norm);
+
+    // Rays will only go in one direction
+    if (d < 0) return false;
+
+    return true;
+}
+
+// Get intersection of a plane with a vector
+std::pair<Coords, int> Plane::intersection_point(Ray incoming) {
+
+    // From the wikipedia page
+    // d is the line size where intersection occurs
+
+    // Avoid divide by zero
+    if ((incoming.direction() * norm) == 0) return std::make_pair( Coords().invalidate(), 0 );
+
+    float d = ((origin - incoming.point()) * norm) / (incoming.direction() * norm);
+
+    // Rays will only go in one direction
+    if (d < 0) return std::make_pair( Coords().invalidate(), 0 );
+
+    return std::make_pair( incoming.point() + (incoming.direction() * d), 1 );
+}
+
+Ray Plane::get_reflected_ray(Ray incoming) {
+    Coords intersect;
+    int num_intersections;
+    std::tie(intersect, num_intersections) = intersection_point(incoming);
+
+    if (!intersect.valid) return Ray();
+
+    Coords r = incoming.u() - (norm * (2 * (incoming.u() * norm)));
+
+    return Ray(intersect, r);
+}
+
+void Plane::set_colour(pixel col) {
+    colour = col;
+}
+
+pixel Plane::get_colour() {
+    return colour;
+}
+
+void Plane::set_origin(Coords coord) {
+    origin = coord;
+}
+
+Coords Plane::get_origin() {
+    return origin;
+}
+
+Coords Plane::normal(Coords point) {
+    return norm;
+}
+
+// Same as get_origin in this case
+Coords Plane::get_center() {
+    return origin;
+}
+
+Coords Plane::get_center() const {
+    return origin;
+}

@@ -4,6 +4,12 @@
 #ifndef PRIMITIVES_HPP
 #define PRIMITIVES_HPP
 
+enum class ShapeType {
+    NONE,
+    SPHERE,
+    PLANE
+};
+
 struct Coords {
     float x;
     float y;
@@ -78,13 +84,15 @@ class Shape {
     pixel colour;
     float reflectivity;
     float matte;
+
+    ShapeType type;
 };
 
 class Sphere : public Shape {
     public:
 
     Sphere();
-    Sphere(float r, Coords orig) : radius(r), origin(orig) {}
+    Sphere(float r, Coords orig) : radius(r), origin(orig) { type = ShapeType::SPHERE; }
 
     bool intersects(Ray incoming) override;
     std::pair<Coords, int> intersection_point(Ray incoming) override;
@@ -108,6 +116,34 @@ class Sphere : public Shape {
     private:
 
     float radius;
+    Coords origin;
+};
+
+class Plane : public Shape {
+    public:
+
+    Plane();
+    Plane(Coords norm, Coords orig) : norm(norm), origin(orig) {}
+
+    bool intersects(Ray incoming) override;
+    std::pair<Coords, int> intersection_point(Ray incoming) override;
+    Ray get_reflected_ray(Ray incoming) override;
+
+    void set_colour(pixel col);
+    pixel get_colour();
+
+    void set_origin(Coords coord);
+    Coords get_origin();
+
+    Coords normal(Coords point) override;
+
+    // Same as get_origin in this case
+    Coords get_center() override;
+    Coords get_center() const override;
+
+    private:
+
+    Coords norm;
     Coords origin;
 };
 

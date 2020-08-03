@@ -74,16 +74,18 @@ class Scene {
 
     void render(Renderer& renderer);
     pixel cast_ray(Ray direction, int this_id = -1);
-    pixel get_brightness(Ray dir, float emmissivity, pixel colour);
+    pixel get_brightness(Ray dir, Shape* light, pixel colour, Coords intersect_point);
 
     Scene(Coords cent, Coords normal, Coords vertical, float w, float h);
     void add_shape(Shape* shape);
+    void add_light(Shape* shape);
 
     private:
 
     // Sorted list based on distance to camera
     Camera camera;
     ShapeContainer shape_list;
+    ShapeContainer light_list;
 };
 
 
