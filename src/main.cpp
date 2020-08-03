@@ -21,11 +21,13 @@ int main() {
     Scene scene(Coords(0, 0, 0), Coords(0, 1, 0), Coords(0, 0, 1), 1.6, 1.2);
 
     Sphere sp1(1, Coords(0, 5, 0));
+    Plane p1(Coords(0, 0, 1), Coords(0, 0, -2));
 
-    Sphere light(1, Coords(3, -2, -15));
+    Sphere light(1, Coords(1, 1, -2));
     light.emissivity = 1;
 
     scene.add_shape(&sp1);
+    scene.add_shape(&p1);
     scene.add_light(&light);
 
     scene.render(renderer);

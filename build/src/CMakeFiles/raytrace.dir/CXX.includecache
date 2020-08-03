@@ -8,6 +8,12 @@
 
 /home/dbaines/Documents/projects/raytrace/src/RayConfig.h
 
+/home/dbaines/Documents/projects/raytrace/src/camera.cpp
+camera.hpp
+/home/dbaines/Documents/projects/raytrace/src/camera.hpp
+stdio.h
+-
+
 /home/dbaines/Documents/projects/raytrace/src/camera.hpp
 primitives.hpp
 /home/dbaines/Documents/projects/raytrace/src/primitives.hpp

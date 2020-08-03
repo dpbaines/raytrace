@@ -123,7 +123,7 @@ class Plane : public Shape {
     public:
 
     Plane();
-    Plane(Coords norm, Coords orig) : norm(norm), origin(orig) {}
+    Plane(Coords norm, Coords orig);
 
     bool intersects(Ray incoming) override;
     std::pair<Coords, int> intersection_point(Ray incoming) override;

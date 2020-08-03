@@ -73,7 +73,7 @@ bool compare_shape(const Shape* s1, const Shape* s2, const Camera& camera) {
     float distance1 = (s1->get_center() - camera.origin).mag();
     float distance2 = (s2->get_center() - camera.origin).mag();
 
-    return distance1 < distance2;
+    return distance1 > distance2;
 }
 
 void ShapeContainer::sort_container(const Camera& camera) {
