@@ -81,36 +81,49 @@ void ShapeContainer::sort_container(const Camera& camera) {
 }
 
 // Lets make this recursive
-pixel Scene::cast_ray(Ray direction, int this_id) {
+pixel Scene::cast_ray(Ray direction, int this_id, int depth) {
+
+    if (depth <= 0) return SKY;
 
     // Check for collision
     for (int i = 0; i < shape_list.size(); i++) {
         if (shape_list[i]->id_ == this_id) continue;
 
+        // Make sure sorted by distance to camera
         if (shape_list[i]->intersects(direction)) {
-            // printf("1");
+            // For now just make everything super reflective, work out materials next
+            Coords int_point;
+            int num_ints;
 
-            // if (shape_list[i]->emissivity > 0) {
-            Coords inter_point;
-            int temp;
-            std::tie(inter_point, temp) = shape_list[i]->intersection_point(direction);
+            std::tie(int_point, num_ints) = shape_list[i]->intersection_point(direction);
 
-            return get_brightness(direction, light_list[0], pixel(255, 255, 0, 255), inter_point);
-            // }
+            Coords normal = shape_list[i]->normal(int_point);
+            Ray normray(int_point, normal);
 
-            // Ray refl = shape_list[i]->get_reflected_ray(direction);
+            Ray newRay = get_random_uvec_hem(normray);
 
-            // return cast_ray(refl, shape_list[i]->id_);
+            float cos_theta = newRay.direction() * normal;
+            float BRDF = shape_list[i]->reflectivity / M_PI;
+
+            pixel color_incoming = cast_ray(newRay, shape_list[i]->id_, depth - 1);
+            pixel output;
+
+            output.r *= shape_list[i]->emissivity.r + color_incoming.r * BRDF * cos_theta * (2*M_PI);
+            output.g *= shape_list[i]->emissivity.g + color_incoming.g * BRDF * cos_theta * (2*M_PI);
+            output.b *= shape_list[i]->emissivity.b + color_incoming.b * BRDF * cos_theta * (2*M_PI);
+            output.a *= shape_list[i]->emissivity.a + color_incoming.a * BRDF * cos_theta * (2*M_PI);
+            
+            printf("Colour at depth %d is <%d %d %d %d>\n", output.r, output.g, output.b, output.a);
+
+            return output;
         }
     }
 
-    // printf("0");
-
-    return pixel(200, 200, 200, 200);
+    return SKY;
 }
 
 // Render the scene
-void Scene::render(Renderer& renderer) {
+void Scene::render(Renderer& renderer, int num_samples, int ray_depth) {
 
     printf("Camera coord <%f %f %f>\n", camera.origin.x, camera.origin.y, camera.origin.z);
 
@@ -118,14 +131,25 @@ void Scene::render(Renderer& renderer) {
         // printf("\n");
 
         for (int x = 0; x < WIDTH; x++) {
-            Coords screenvec = camera.screen.get_coord(x, y);
-            Coords raydir = screenvec - camera.origin;
-            
-            Ray raycast(camera.origin, raydir);
 
-            pixel castray = cast_ray(raycast);
-            renderer.set_pixel(castray, x, y);
+            pixel output;
 
+            for (int i = 0; i < num_samples; i++) {
+                Coords screenvec = camera.screen.get_coord(x, y);
+                Coords raydir = screenvec - camera.origin;
+                
+                Ray raycast(camera.origin, raydir);
+
+                pixel castray = cast_ray(raycast, -1, ray_depth);
+                output.r = castray.r / num_samples;
+                output.g = castray.g / num_samples;
+                output.b = castray.b / num_samples;
+                output.a = castray.a / num_samples; 
+            }
+
+            // printf("Pixel <%d %d %d %d>\n", output.r, output.g, output.b, output.a);
+
+            renderer.set_pixel(output, x, y);
             // if (x % 100 == 0) printf("<%f %f %f> ", raydir.x, raydir.y, raydir.z);
         }
     }
@@ -166,4 +190,16 @@ pixel Scene::get_brightness(Ray dir, Shape* light, pixel colour, Coords intersec
     brightness.a = 255;
 
     return brightness;
+}
+
+Ray get_random_uvec_hem(Ray& norm) {
+    Coords newvec(rand() % 1000, rand() % 1000, rand() % 1000);
+    newvec.normalize();
+    
+    if (norm.direction() * newvec < 0) {
+        // Invert direction if it's in the other hemisphere
+        newvec = newvec * -1;
+    }
+
+    return Ray(norm.point(), newvec);
 }

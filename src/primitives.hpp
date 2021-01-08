@@ -68,6 +68,7 @@ class Shape {
     virtual bool intersects(Ray incoming);
 
     // Get the intersection point of a ray and whatever shape
+    // Coords is the intersection point and second return is the number of intersections (0, 1, 2)
     virtual std::pair<Coords, int> intersection_point(Ray incoming);
 
     // Return the reflected ray to an incoming ray hitting this shape
@@ -80,7 +81,7 @@ class Shape {
     virtual Coords get_center() const;
 
     int id_;
-    float emissivity;
+    pixel emissivity;
     pixel colour;
     float reflectivity;
     float matte;

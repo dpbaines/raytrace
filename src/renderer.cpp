@@ -15,6 +15,18 @@ Renderer::~Renderer() {
     delete[] pix_array;
 }
 
+pixel pixel::operator*(float& rhs) {
+    return pixel(this->r * rhs, this->g * rhs, this->b * rhs, this->a * rhs);
+}
+
+pixel pixel::operator*(pixel& rhs) {
+    return pixel(this->r * rhs.a, this->g * rhs.g, this->b * rhs.b, this->a * rhs.a);
+}
+    
+pixel pixel::operator+(pixel& rhs) {
+    return pixel(this->r + rhs.a, this->g + rhs.g, this->b + rhs.b, this->a + rhs.a);
+}
+
 void Renderer::set_pixel(pixel pix, int x, int y) {
     pix_array[4 * (x + y * WIDTH)] = pix.r;
     pix_array[4 * (x + y * WIDTH) + 1] = pix.g;

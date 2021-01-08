@@ -8,6 +8,7 @@
 #define CAMERA_HPP
 
 #define FOV 90
+#define SKY pixel(200, 200, 200, 200)
 
 class ShapeContainer;
 
@@ -69,11 +70,14 @@ class ShapeContainer {
 
 bool compare_shape(const Shape* s1, const Shape* s2, const Camera& camera);
 
+// Get a random unit vector in the hemisphere around the normal
+Ray get_random_uvec_hem(Ray& norm);
+
 class Scene {
     public:
 
-    void render(Renderer& renderer);
-    pixel cast_ray(Ray direction, int this_id = -1);
+    void render(Renderer& renderer, int num_samples, int ray_depth);
+    pixel cast_ray(Ray direction, int this_id = -1, int depth = 1);
     pixel get_brightness(Ray dir, Shape* light, pixel colour, Coords intersect_point);
 
     Scene(Coords cent, Coords normal, Coords vertical, float w, float h);

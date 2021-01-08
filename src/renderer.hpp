@@ -8,13 +8,19 @@
 #define WIDTH 800
 
 struct pixel {
-    sf::Uint8 r;
-    sf::Uint8 g;
-    sf::Uint8 b;
-    sf::Uint8 a;
+    uint r;
+    uint g;
+    uint b;
+    uint a;
 
     pixel() {};
-    pixel(sf::Uint8 r1, sf::Uint8 g1, sf::Uint8 b1, sf::Uint8 a1) : r(r1), g(g1), b(b1), a(a1) {};
+    pixel(uint r1, uint g1, uint b1, uint a1) : r(r1), g(g1), b(b1), a(a1) {};
+
+    pixel operator*(float& rhs);
+    pixel operator*(pixel& rhs);
+    
+    pixel operator+(pixel& rhs);
+
 };
 
 class Renderer {
